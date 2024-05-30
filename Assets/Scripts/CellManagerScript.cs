@@ -34,7 +34,21 @@ public class CellManagerScript : MonoBehaviour
 
     public void LeftClicked()
     {
-        if ((!isOpen && !isFlag)&&!isQuestion)
+        if ((!isOpen && !isFlag) && !isQuestion)
+        {
+            isOpen = true;
+            coverSprite.gameObject.SetActive(false);
+            gameManager.OpenCell(vPosition, hPosition, mineCount, isMine);
+        }
+        else if (isOpen)
+        {
+            gameManager.AroundOpen(vPosition, hPosition, mineCount);
+        }
+    }
+
+    public void Around()
+    {
+        if ((!isOpen && !isFlag) && !isQuestion)
         {
             isOpen = true;
             coverSprite.gameObject.SetActive(false);
@@ -74,10 +88,6 @@ public class CellManagerScript : MonoBehaviour
                 questionSprite.gameObject.SetActive(false);
 
             }
-        }
-        else
-        {
-            gameManager.AroundOpen(vPosition, hPosition, mineCount);
         }
     }
 

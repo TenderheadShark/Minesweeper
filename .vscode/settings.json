@@ -54,5 +54,6 @@
     },
     "cSpell.words": [
         "UGUI"
-    ]
+    ],
+    "dotnet.preferCSharpExtension": true
 }

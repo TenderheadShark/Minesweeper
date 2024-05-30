@@ -116,14 +116,14 @@ public class GameManagerScript : MonoBehaviour
         {
             if (mineCount == 0)
             {
-                if (!l) cellManagers[v, h - 1].LeftClicked();
-                if (!r) cellManagers[v, h + 1].LeftClicked();
-                if (!u) cellManagers[v - 1, h].LeftClicked();
-                if (!d) cellManagers[v + 1, h].LeftClicked();
-                if (!u && !l) cellManagers[v - 1, h - 1].LeftClicked();
-                if (!u && !r) cellManagers[v - 1, h + 1].LeftClicked();
-                if (!d && !l) cellManagers[v + 1, h - 1].LeftClicked();
-                if (!d && !r) cellManagers[v + 1, h + 1].LeftClicked();
+                if (!l) cellManagers[v, h - 1].Around();
+                if (!r) cellManagers[v, h + 1].Around();
+                if (!u) cellManagers[v - 1, h].Around();
+                if (!d) cellManagers[v + 1, h].Around();
+                if (!u && !l) cellManagers[v - 1, h - 1].Around();
+                if (!u && !r) cellManagers[v - 1, h + 1].Around();
+                if (!d && !l) cellManagers[v + 1, h - 1].Around();
+                if (!d && !r) cellManagers[v + 1, h + 1].Around();
             }
             openCount++;
         }
@@ -159,14 +159,14 @@ public class GameManagerScript : MonoBehaviour
         if ((!d && !r) && cellManagers[v + 1, h + 1].isFlag) cnt++;
         if (mineCount == cnt)
         {
-            if (!l) cellManagers[v, h - 1].LeftClicked();
-            if (!r) cellManagers[v, h + 1].LeftClicked();
-            if (!u) cellManagers[v - 1, h].LeftClicked();
-            if (!d) cellManagers[v + 1, h].LeftClicked();
-            if (!u && !l) cellManagers[v - 1, h - 1].LeftClicked();
-            if (!u && !r) cellManagers[v - 1, h + 1].LeftClicked();
-            if (!d && !l) cellManagers[v + 1, h - 1].LeftClicked();
-            if (!d && !r) cellManagers[v + 1, h + 1].LeftClicked();
+            if (!l) cellManagers[v, h - 1].Around();
+            if (!r) cellManagers[v, h + 1].Around();
+            if (!u) cellManagers[v - 1, h].Around();
+            if (!d) cellManagers[v + 1, h].Around();
+            if (!u && !l) cellManagers[v - 1, h - 1].Around();
+            if (!u && !r) cellManagers[v - 1, h + 1].Around();
+            if (!d && !l) cellManagers[v + 1, h - 1].Around();
+            if (!d && !r) cellManagers[v + 1, h + 1].Around();
         }
     }
 
