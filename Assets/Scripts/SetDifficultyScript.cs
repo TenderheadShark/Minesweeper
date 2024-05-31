@@ -94,7 +94,6 @@ public class SetDifficultyScript : MonoBehaviour
 
     public void OnCustomButtonDown()
     {
-
         sX.value = width;
         sY.value = height;
         sB.value = bomb;
@@ -106,15 +105,13 @@ public class SetDifficultyScript : MonoBehaviour
     public void OnSliderXMove()
     {
         width = (int)sX.value;
-        sB.maxValue = width * height - 9;
-        CustomText();
+        BombValueFromWidthHeight();
     }
 
     public void OnSliderYMove()
     {
         height = (int)sY.value;
-        sB.maxValue = width * height - 9;
-        CustomText();
+        BombValueFromWidthHeight();
     }
 
     public void OnSliderBombMove()
@@ -125,6 +122,7 @@ public class SetDifficultyScript : MonoBehaviour
 
     void BombValueFromWidthHeight()
     {
+        sB.maxValue = width * height - 9;
         sB.value = (int)((width * height)*0.2);
         bomb = (int)sB.value;
         CustomText();
