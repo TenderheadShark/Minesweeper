@@ -35,13 +35,36 @@ public class SetDifficultyScript : MonoBehaviour
         sX = sliderX.GetComponent<Slider>();
         sY = sliderY.GetComponent<Slider>();
         sB = sliderBomb.GetComponent<Slider>();
-        cText.text = "Custom mode\nField : " + width.ToString() + "x" + height.ToString() + "\nMine : " + bomb.ToString();
         width = 9;
         height = 9;
         bomb = 10;
-        sB.minValue = 5 * 5 - 9;
         sB.maxValue = width * height - 9;
+    }
 
+    void DisplayText(int difficulty)
+    {
+        easyText.gameObject.SetActive(false);
+        normalText.gameObject.SetActive(false);
+        hardText.gameObject.SetActive(false);
+        customText.gameObject.SetActive(false);
+        sliderX.gameObject.SetActive(false);
+        sliderY.gameObject.SetActive(false);
+        sliderBomb.gameObject.SetActive(false);
+        switch (difficulty)
+        {
+            case 0: easyText.gameObject.SetActive(true);
+                    break;
+            case 1: normalText.gameObject.SetActive(true);
+                    break;
+            case 2: hardText.gameObject.SetActive(true);
+                    break;
+            case 3: customText.gameObject.SetActive(true);
+                    sliderX.gameObject.SetActive(true);
+                    sliderY.gameObject.SetActive(true);
+                    sliderBomb.gameObject.SetActive(true);
+                    break;
+        }
+        startButton.gameObject.SetActive(true);
     }
 
     public void OnEasyButtonDown()
@@ -49,14 +72,8 @@ public class SetDifficultyScript : MonoBehaviour
         width = 9;
         height = 9;
         bomb = 10;
-        easyText.gameObject.SetActive(true);
-        normalText.gameObject.SetActive(false);
-        hardText.gameObject.SetActive(false);
-        customText.gameObject.SetActive(false);
-        sliderX.gameObject.SetActive(false);
-        sliderY.gameObject.SetActive(false);
-        sliderBomb.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
+        DisplayText(0);
+    
     }
 
     public void OnNormalButtonDown()
@@ -64,14 +81,7 @@ public class SetDifficultyScript : MonoBehaviour
         width = 16;
         height = 16;
         bomb = 40;
-        easyText.gameObject.SetActive(false);
-        normalText.gameObject.SetActive(true);
-        hardText.gameObject.SetActive(false);
-        customText.gameObject.SetActive(false);
-        sliderX.gameObject.SetActive(false);
-        sliderY.gameObject.SetActive(false);
-        sliderBomb.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
+        DisplayText(1);
     }
 
     public void OnHardButtonDown()
@@ -79,48 +89,52 @@ public class SetDifficultyScript : MonoBehaviour
         width = 30;
         height = 16;
         bomb = 99;
-        easyText.gameObject.SetActive(false);
-        normalText.gameObject.SetActive(false);
-        hardText.gameObject.SetActive(true);
-        customText.gameObject.SetActive(false);
-        sliderX.gameObject.SetActive(false);
-        sliderY.gameObject.SetActive(false);
-        sliderBomb.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
+        DisplayText(2);
     }
 
     public void OnCustomButtonDown()
     {
-        easyText.gameObject.SetActive(false);
-        normalText.gameObject.SetActive(false);
-        hardText.gameObject.SetActive(false);
-        customText.gameObject.SetActive(true);
-        sliderX.gameObject.SetActive(true);
-        sliderY.gameObject.SetActive(true);
-        sliderBomb.gameObject.SetActive(true);
-        startButton.gameObject.SetActive(true);
+
+        sX.value = width;
+        sY.value = height;
+        sB.value = bomb;
+        sB.maxValue = width * height - 9;
+        CustomText();
+        DisplayText(3);
     }
 
     public void OnSliderXMove()
     {
         width = (int)sX.value;
         sB.maxValue = width * height - 9;
-        sB.value = (int)((width * height)*0.2);
-        bomb = (int)sB.value;
-        cText.text = "Custom mode\nField : " + width.ToString() + "x" + height.ToString() + "\nMine : " + bomb.ToString();
+        CustomText();
     }
+
     public void OnSliderYMove()
     {
         height = (int)sY.value;
         sB.maxValue = width * height - 9;
-        sB.value = (int)((width * height)*0.2);
-        bomb = (int)sB.value;
-        cText.text = "Custom mode\nField : " + width.ToString() + "x" + height.ToString() + "\nMine : " + bomb.ToString();
+        CustomText();
     }
+
     public void OnSliderBombMove()
     {
         bomb = (int)sB.value;
-        cText.text = "Custom mode\nField : " + width.ToString() + "x" + height.ToString() + "\nMine : " + bomb.ToString();
+        CustomText();
+    }
+
+    void BombValueFromWidthHeight()
+    {
+        sB.value = (int)((width * height)*0.2);
+        bomb = (int)sB.value;
+        CustomText();
+    }
+
+    void CustomText()
+    {
+        cText.text = "Custom mode\nField : " + width.ToString() 
+        + "x" + height.ToString() + "\nMine : " + bomb.ToString()
+        + "\nMine% : " + ((bomb*100.0f/(width*height))).ToString("0") + "%";
     }
 
     public void OnStartButtonDown()
