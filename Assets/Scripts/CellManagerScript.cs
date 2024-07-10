@@ -6,7 +6,7 @@ public class CellManagerScript : MonoBehaviour
     GameManagerScript gameManager;
     public int mineCount = 0;
     public bool isMine;
-    bool isOpen;
+    public bool isOpen;
     public bool isFlag;
     bool isQuestion;
     int vPosition;
@@ -42,7 +42,7 @@ public class CellManagerScript : MonoBehaviour
         }
         else if (isOpen)
         {
-            gameManager.AroundOpen(vPosition, hPosition, mineCount);
+            gameManager.AOpen(vPosition, hPosition, mineCount);
         }
     }
 
@@ -65,29 +65,42 @@ public class CellManagerScript : MonoBehaviour
     {
         if (!isOpen)
         {
-            if (rightClickLoop == 0)
+            switch (rightClickLoop)
             {
-                rightClickLoop = 1;
-                isFlag = true;
-                flagSprite.gameObject.SetActive(true);
-                gameManager.OnFlagSet(true);
-            }
-            else if (rightClickLoop == 1)
-            {
-                rightClickLoop = 2;
-                isFlag = false;
-                isQuestion = true;
-                flagSprite.gameObject.SetActive(false);
-                gameManager.OnFlagSet(false);
-                questionSprite.gameObject.SetActive(true);
-            }
-            else if (rightClickLoop == 2)
-            {
-                rightClickLoop = 0;
-                isQuestion = false;
-                questionSprite.gameObject.SetActive(false);
+                case 0: rightClickLoop = 1;
+                        isFlag = true;
+                        flagSprite.gameObject.SetActive(true);
+                        gameManager.OnFlagSet(true);
+                        break;
 
+                case 1: rightClickLoop = 2;
+                        isFlag = false;
+                        isQuestion = true;
+                        flagSprite.gameObject.SetActive(false);
+                        gameManager.OnFlagSet(false);
+                        questionSprite.gameObject.SetActive(true);
+                        break;
+
+                case 2: rightClickLoop = 0;
+                        isQuestion = false;
+                        questionSprite.gameObject.SetActive(false);
+                        break;
             }
+        } 
+        else
+        {
+            gameManager.AFlag(vPosition, hPosition, mineCount);
+        }
+    }
+
+    public void AroundFlag()
+    {
+        if(!isOpen && !isFlag)
+        {
+            rightClickLoop = 1;
+            isFlag = true;
+            flagSprite.gameObject.SetActive(true);
+            gameManager.OnFlagSet(true);
         }
     }
 

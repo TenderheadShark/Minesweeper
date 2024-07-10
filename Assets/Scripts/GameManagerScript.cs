@@ -20,6 +20,7 @@ public class GameManagerScript : MonoBehaviour
     public static bool isGameClear;
     int cellCountWithoutMine = (fieldHeight * fieldWidth) - mineQuantity;
     TimerScript timerScript;
+    Vector3 preMousePos;
 
     public static void SetDifficulty(int width, int height, int quantity)
     {
@@ -138,7 +139,7 @@ public class GameManagerScript : MonoBehaviour
 
     }
 
-    public void AroundOpen(int v, int h, int mineCount)
+    public void AOpen(int v, int h, int mineCount)
     {
         int cnt = 0;
         bool u = false;
@@ -167,6 +168,37 @@ public class GameManagerScript : MonoBehaviour
             if (!u && !r) cellManagers[v - 1, h + 1].Around();
             if (!d && !l) cellManagers[v + 1, h - 1].Around();
             if (!d && !r) cellManagers[v + 1, h + 1].Around();
+        }
+    }
+    public void AFlag(int v, int h, int mineCount)
+    {
+        int cnt = 0;
+        bool u = false;
+        bool d = false;
+        bool l = false;
+        bool r = false;
+        if (v == 0) u = true;
+        if (v == (fieldHeight - 1)) d = true;
+        if (h == 0) l = true;
+        if (h == (fieldWidth - 1)) r = true;
+        if (!l && !cellManagers[v, h - 1].isOpen) cnt++;
+        if (!r && !cellManagers[v, h + 1].isOpen) cnt++;
+        if (!u && !cellManagers[v - 1, h].isOpen) cnt++;
+        if (!d && !cellManagers[v + 1, h].isOpen) cnt++;
+        if ((!u && !l) && !cellManagers[v - 1, h - 1].isOpen) cnt++;
+        if ((!u && !r) && !cellManagers[v - 1, h + 1].isOpen) cnt++;
+        if ((!d && !l) && !cellManagers[v + 1, h - 1].isOpen) cnt++;
+        if ((!d && !r) && !cellManagers[v + 1, h + 1].isOpen) cnt++;
+        if (mineCount == cnt)
+        {
+            if (!l) cellManagers[v, h - 1].AroundFlag();
+            if (!r) cellManagers[v, h + 1].AroundFlag();
+            if (!u) cellManagers[v - 1, h].AroundFlag();
+            if (!d) cellManagers[v + 1, h].AroundFlag();
+            if (!u && !l) cellManagers[v - 1, h - 1].AroundFlag();
+            if (!u && !r) cellManagers[v - 1, h + 1].AroundFlag();
+            if (!d && !l) cellManagers[v + 1, h - 1].AroundFlag();
+            if (!d && !r) cellManagers[v + 1, h + 1].AroundFlag();
         }
     }
 
@@ -199,5 +231,37 @@ public class GameManagerScript : MonoBehaviour
     public void OnBackButtonDown()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    void Update()
+    {
+        float scroll = Input.mouseScrollDelta.y * Time.deltaTime * 50;
+        if (_camera.orthographicSize > 0.1)
+        {
+            _camera.orthographicSize += scroll;
+        }
+        else
+        {
+            _camera.orthographicSize = 0.11f;
+        }
+        if (Input.GetMouseButtonDown(2))
+        {
+            preMousePos = Input.mousePosition;
+            Debug.Log(Input.mousePosition);
+        }
+        MouseDrag(Input.mousePosition);
+    }
+    void MouseDrag(Vector3 mousePos)
+    {
+        Vector3 diff = mousePos - preMousePos;
+        Debug.Log(diff);
+
+        if (diff.magnitude < Vector3.kEpsilon) return;
+
+        if (Input.GetMouseButton(2))
+        {
+            mainCamObj.transform.Translate(-diff * Time.deltaTime * 5.0f);
+        }
+        preMousePos = mousePos;
     }
 }
