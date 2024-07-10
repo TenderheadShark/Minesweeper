@@ -99,6 +99,8 @@ public class CellManagerScript : MonoBehaviour
         {
             rightClickLoop = 1;
             isFlag = true;
+            isQuestion = false;
+            questionSprite.gameObject.SetActive(false);
             flagSprite.gameObject.SetActive(true);
             gameManager.OnFlagSet(true);
         }
