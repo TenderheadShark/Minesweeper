@@ -36,6 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets/Scripts/SliderSnap_Generic.cs" />
      <Compile Include="Assets/Scripts/TimerScript.cs" />
      <Compile Include="Assets/Scripts/CellManagerScript.cs" />
      <Compile Include="Assets/Scripts/GameManagerScript.cs" />
